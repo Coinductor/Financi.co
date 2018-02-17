@@ -75,6 +75,20 @@ namespace Financi.co.Controllers
             return View(model);
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
@@ -333,6 +347,15 @@ namespace Financi.co.Controllers
             base.Dispose(disposing);
         }
 
+
+
+
+
+
+
+
+
+
 #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
@@ -387,3 +410,4 @@ namespace Financi.co.Controllers
 #endregion
     }
 }
+

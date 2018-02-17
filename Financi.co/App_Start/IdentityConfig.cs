@@ -32,8 +32,43 @@ namespace Financi.co
         }
     }
 
-    // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
-    public class ApplicationUserManager : UserManager<ApplicationUser>
+
+    public class SmsService : IIdentityMessageService
+    {
+        public Task SendAsync(IdentityMessage message)
+        {
+            Twilio Begin
+             var Twilio = new TwilioRestClient(
+               System.Configuration.ConfigurationManager.AppSettings["SMSAccountIdentification"],
+               System.Configuration.ConfigurationManager.AppSettings["SMSAccountPassword"]);
+            var result = Twilio.SendMessage(
+              System.Configuration.ConfigurationManager.AppSettings["SMSAccountFrom"],
+              message.Destination, message.Body
+            );
+            Status is one of Queued, Sending, Sent, Failed or null if the number is not valid
+             Trace.TraceInformation(result.Status);
+            Twilio doesn't currently have an async API, so return success.
+             return Task.FromResult(0);
+            Twilio End
+
+            // ASPSMS Begin
+            // var soapSms = new MvcPWx.ASPSMSX2.ASPSMSX2SoapClient("ASPSMSX2Soap");
+            //soapSms.SendSimpleTextSMS(
+            //  System.Configuration.ConfigurationManager.AppSettings["SMSAccountIdentification"],
+            //  System.Configuration.ConfigurationManager.AppSettings["SMSAccountPassword"],
+            //  message.Destination,
+            //  System.Configuration.ConfigurationManager.AppSettings["SMSAccountFrom"],
+            //  message.Body);
+            //soapSms.Close();
+            //return Task.FromResult(0);
+            //        //ASPSMS End
+            //    }
+            //}
+
+
+
+            // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
+        public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
             : base(store)
@@ -53,11 +88,11 @@ namespace Financi.co
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequiredLength = 4,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Configure user lockout defaults
